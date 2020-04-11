@@ -251,5 +251,6 @@ def main():
   run(args, cmds)
 
 
+# Note: Please install sysstat ifstat to get system stats
 if __name__ == "__main__":
   main()
