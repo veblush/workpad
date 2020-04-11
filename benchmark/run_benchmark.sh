@@ -25,10 +25,10 @@ for i in {1..2}; do
           cmd="./job_java_gcs.sh grpc $GCS_BUCKET $GCS_OBJECT $REPEAT_TIMES"
           ;;
         java_gcsio_http)
-          cmd="./job_java_gcs.sh gcsio_http $GCS_BUCKET $GCS_OBJECT $REPEAT_TIMES"
+          cmd="./job_java_gcs_gradle.sh gcsio-http $GCS_BUCKET $GCS_OBJECT $REPEAT_TIMES"
           ;;
         java_gcsio_grpc)
-          cmd="./job_java_gcs.sh gcsio_grpc $GCS_BUCKET $GCS_OBJECT $REPEAT_TIMES"
+          cmd="./job_java_gcs_gradle.sh gcsio-grpc $GCS_BUCKET $GCS_OBJECT $REPEAT_TIMES"
           ;;
       esac
       ../runs.py -r $t -t $t \

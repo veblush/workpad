@@ -1,4 +1,6 @@
 #!/bin/bash
+set -e
+
 if [ $# -lt 4 ];then
   echo "Usage: $0 client bucket object times"
   exit 1

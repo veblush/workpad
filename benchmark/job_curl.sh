@@ -1,4 +1,6 @@
 #!/bin/bash
+set -e
+
 if [ $# -lt 3 ];then
   echo "Usage: $0 bucket object times"
   exit 1
