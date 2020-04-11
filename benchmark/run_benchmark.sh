@@ -6,7 +6,7 @@ GCS_OBJECT=1MB.bin
 REPEAT_TIMES=20
 
 for i in {1..2}; do
-  for t in 1 2 4 6 8 10 12 14 16 18 20; do
+  for t in 1 2; do # 4 6 8 10 12 14 16 18 20; do
     for j in curl cpp_gcs java_gcs_yoshi java_gcs_grpc java_gcsio_http java_gcsio_grpc; do
       echo ========================================
       echo = i:$i t:$t j:$j
