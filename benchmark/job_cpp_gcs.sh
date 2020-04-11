@@ -6,7 +6,7 @@ fi
 
 BENCHMARK_BIN=$HOME/grpc-gcp-cpp/bazel-bin/e2e-examples/gcs/benchmark/benchmark
 
-$BENCHMARK_BIN
+$BENCHMARK_BIN \
   --bucket=$1 \
   --object=$2 \
   --runs $3 \
