@@ -26,16 +26,22 @@ class CpuStat:
 CPU_STAT_FIELDS = ['user', 'nice', 'system', 'iowait', 'steal', 'idle']
 
 
-def get_cpu_stat():
+def init_cpu_stat_proc():
   try:
-    out = subprocess.check_output(["iostat", "-c", "-o", "JSON"])
-    j = json.loads(out)
-    cpu_stat = j["sysstat"]["hosts"][0]["statistics"][0]["avg-cpu"]
-    return CpuStat(datetime.datetime.now(), cpu_stat['user'], cpu_stat['nice'],
-                   cpu_stat['system'], cpu_stat['iowait'], cpu_stat['steal'],
-                   cpu_stat['idle'])
+    return subprocess.Popen(["iostat", "-c", "-o", "JSON", "1", "2"],
+                            stdout=subprocess.PIPE)
   except OSError:
     return None
+
+
+def get_cpu_stat(p):
+  if p is None:
+    return None
+  j = json.loads(p.communicate()[0])
+  cpu_stat = j["sysstat"]["hosts"][0]["statistics"][-1]["avg-cpu"]
+  return CpuStat(datetime.datetime.now(), cpu_stat['user'], cpu_stat['nice'],
+                 cpu_stat['system'], cpu_stat['iowait'], cpu_stat['steal'],
+                 cpu_stat['idle'])
 
 
 def print_stats(start_time, end_time, results, cpu_stats):
@@ -50,7 +56,7 @@ def print_stats(start_time, end_time, results, cpu_stats):
     print("CPU:")
     for f in CPU_STAT_FIELDS:
       values = [getattr(stat, f) for stat in cpu_stats]
-      print("  {0}: {1}".format(f, values[len(values) // 2]))
+      print("  {0}: {1:.2f}".format(f, sum(values) / len(values)))
 
 
 def write_report(start_time, end_time, results, cpu_stats, args):
@@ -72,10 +78,10 @@ def write_report(start_time, end_time, results, cpu_stats, args):
     for field in CPU_STAT_FIELDS:
       if cpu_stats:
         values = [getattr(stat, field) for stat in cpu_stats]
-        v = values[len(values) // 2]
+        v = sum(values) / len(values)
       else:
         v = 0
-      f.write("\t{0}".format(v))
+      f.write("\t{0:.2f}".format(v))
     f.write("\n")
 
 
@@ -83,6 +89,7 @@ def run(args, cmds):
   processes = []
   results = []
   cpu_stats = []
+  cpu_stats_proc = init_cpu_stat_proc()
   start_time = datetime.datetime.now()
   last_stat_time = None
   while len(results) < args.runs:
@@ -101,12 +108,11 @@ def run(args, cmds):
         print("Run")
       p = subprocess.Popen(cmds)
       processes.append((p, datetime.datetime.now()))
-    now = datetime.datetime.now()
-    if last_stat_time is None or (now - last_stat_time).total_seconds() >= 1:
-      last_stat_time = now
-      stat = get_cpu_stat()
+    if cpu_stats_proc.poll() != None:
+      stat = get_cpu_stat(cpu_stats_proc)
       if stat:
         cpu_stats.append(stat)
+      cpu_stats_proc = init_cpu_stat_proc()
     time.sleep(0.01)
 
   end_time = datetime.datetime.now()
