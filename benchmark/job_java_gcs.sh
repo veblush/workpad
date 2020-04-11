@@ -2,7 +2,7 @@
 set -e
 
 if [ $# -lt 4 ];then
-  echo "Usage: $0 client bucket object times"
+  echo "Usage: $0 client bucket object times [parameters]"
   exit 1
 fi
 
@@ -16,4 +16,4 @@ $JAVA_BIN \
   --obj=$3 \
   --calls=$4 \
   --method=read \
-  $5
+  ${@:5}

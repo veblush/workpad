@@ -10,6 +10,6 @@ GCS_PATH=$HOME/grpc-gcp-java/end2end-test-examples/gcs
 
 pushd $GCS_PATH
 
-./gradlew run --args="--client=$1 --bkt=$2 --obj=$3 --method=read --calls=$4 $5"
+./gradlew run --args="--client=$1 --bkt=$2 --obj=$3 --method=read --calls=$4 ${@:5}"
 
 popd
