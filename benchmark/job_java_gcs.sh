@@ -13,6 +13,6 @@ $JAVA_BIN \
   --bkt=$2 \
   --obj=$3 \
   --calls=$4 \
-  --buffSize=1048576 \ # This is bound to obj
+  --buffSize=1048576 \
   --method=read \
   --dp=true
