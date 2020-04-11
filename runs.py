@@ -136,14 +136,14 @@ def write_report(start_time, end_time, results, sys_stats, args):
   with open(args.report_file, "at") as f:
     if is_new_file:
       f.write("\t".join([
-          "Time", "Tag", "Elapsed", "Threads", "Runs", "Errors", "Run-P01-T", "Run-P25-T",
-          "Run-P50-T", "Run-P75-T", "Run-P99-T"
+          "Time", "Tag", "Elapsed", "Threads", "Runs", "Errors", "Run-P01-T",
+          "Run-P25-T", "Run-P50-T", "Run-P75-T", "Run-P99-T"
       ] + ["CPU-" + f
            for f in CPU_STAT_FIELDS] + ["MEM-" + f for f in MEM_STAT_FIELDS] +
                         ["NET-" + f for f in NET_STAT_FIELDS]) + "\n")
-    f.write("{0}\t{1}\t{2:.2f}\t{3}\t{4}".format(start_time, args.report_tag,
-                                                 elapsed_time.total_seconds(),
-                                                 args.threads, args.runs, error_runs))
+    f.write("{0}\t{1}\t{2:.2f}\t{3}\t{4}\t{5}".format(
+        start_time, args.report_tag, elapsed_time.total_seconds(), args.threads,
+        args.runs, error_runs))
     for p in PERCENTILES:
       p_value = times[int(len(times) * p)].total_seconds()
       f.write("\t{0:.2f}".format(p_value))
