@@ -28,10 +28,10 @@ for i in $(seq 1 $BENCHMARK_TIMES); do
           cmd="./job_java_gcs.sh grpc $GCS_BUCKET $GCS_OBJECT $REPEAT_TIMES $GCS_JAVA_OPTION"
           ;;
         java_gcsio_http)
-          cmd="./job_java_gcs_gradle.sh gcsio-http $GCS_BUCKET $GCS_OBJECT $REPEAT_TIMES $GCS_JAVA_OPTION"
+          cmd="./job_java_gcs.sh gcsio-http $GCS_BUCKET $GCS_OBJECT $REPEAT_TIMES $GCS_JAVA_OPTION"
           ;;
         java_gcsio_grpc)
-          cmd="./job_java_gcs_gradle.sh gcsio-grpc $GCS_BUCKET $GCS_OBJECT $REPEAT_TIMES $GCS_JAVA_OPTION"
+          cmd="./job_java_gcs.sh gcsio-grpc $GCS_BUCKET $GCS_OBJECT $REPEAT_TIMES $GCS_JAVA_OPTION"
           ;;
       esac
       ../runs.py -r $t -t $t \
