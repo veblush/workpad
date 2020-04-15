@@ -7,9 +7,10 @@ GCS_OBJECT_KB_SIZE=1048576
 BENCHMARK_TIMES=10
 REPEAT_TIMES=20
 GCS_JAVA_OPTION="--buffSize=$GCS_OBJECT_KB_SIZE --dp=true"
+# GCS_JAVA_OPTION="--buffSize=$GCS_OBJECT_KB_SIZE --dp=true --conscrypt=true"
 
 for i in $(seq 1 $BENCHMARK_TIMES); do
-  for t in 1 2 4 6 8 10 12 14 16 18 20; do
+  for t in 1 8; do
     for j in curl cpp_gcs java_gcs_yoshi java_gcs_grpc java_gcsio_http java_gcsio_grpc; do
       echo ========================================
       echo = i:$i t:$t j:$j
