@@ -3,7 +3,6 @@
 import argparse
 import datetime
 import json
-import locale
 import os
 import re
 import subprocess
@@ -128,42 +127,49 @@ def get_net_stat(p):
   return None
 
 
+def parse_float(s):
+  return float(s.replace(",", ""))
+
+
+def parse_int(s):
+  return int(s.replace(",", ""))
+
+
 def parse_perf_stat_output(output):
   stat = PerfStat()
   mo = re.search(r"([0-9.,]+)\s+msec\s+task-clock", output)
   if mo:
-    stat.task_clock = locale.atof(mo.group(1))
+    stat.task_clock = parse_float(mo.group(1))
   mo = re.search(r"([0-9.,]+)\s+context-switches", output)
   if mo:
-    stat.context_switches = locale.atoi(mo.group(1))
+    stat.context_switches = parse_int(mo.group(1))
   mo = re.search(r"([0-9.,]+)\s+cpu-migrations", output)
   if mo:
-    locale.atoi
-    stat.cpu_migrations = locale.atoi(mo.group(1))
+    stat.cpu_migrations = parse_int(mo.group(1))
   mo = re.search(r"([0-9.,]+)\s+page-faults", output)
   if mo:
-    stat.page_faults = locale.atoi(mo.group(1))
+    stat.page_faults = parse_int(mo.group(1))
   mo = re.search(r"([0-9.,]+)\s+cycles", output)
   if mo:
-    stat.cycles = locale.atoi(mo.group(1))
+    stat.cycles = parse_int(mo.group(1))
   mo = re.search(r"([0-9.,]+)\s+instructions", output)
   if mo:
-    stat.instructions = locale.atoi(mo.group(1))
+    stat.instructions = parse_int(mo.group(1))
   mo = re.search(r"([0-9.,]+)\s+branches", output)
   if mo:
-    stat.branches = locale.atoi(mo.group(1))
+    stat.branches = parse_int(mo.group(1))
   mo = re.search(r"([0-9.,]+)\s+branch-misses", output)
   if mo:
-    stat.branch_misses = locale.atoi(mo.group(1))
+    stat.branch_misses = parse_int(mo.group(1))
   mo = re.search(r"([0-9.,]+)\s+seconds time elapsed", output)
   if mo:
-    stat.wall_time = locale.atof(mo.group(1))
+    stat.wall_time = parse_float(mo.group(1))
   mo = re.search(r"([0-9.,]+)\s+seconds user", output)
   if mo:
-    stat.user_time = locale.atof(mo.group(1))
+    stat.user_time = parse_float(mo.group(1))
   mo = re.search(r"([0-9.,]+)\s+seconds sys", output)
   if mo:
-    stat.sys_time = locale.atof(mo.group(1))
+    stat.sys_time = parse_float(mo.group(1))
   return stat
 
 
@@ -330,7 +336,6 @@ def main():
   argv = sys.argv[1:idx]
   cmds = sys.argv[idx + 1:]
 
-  locale.setlocale(locale.LC_ALL, 'en_US.UTF-8')
   args = parser.parse_args(argv)
   run(args, cmds)
 
