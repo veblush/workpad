@@ -1,0 +1,21 @@
+# How to build
+
+You can get files by running following commands.
+
+```
+$ docker build -t java8-cipherspi-backport .
+$ docker run --rm -v /tmp/java8-cipherspi-backport:/tmp java8-cipherspi-backport sh -c "cp -r /root/output/* /tmp"
+```
+
+This gives you two files `CipherSpi.class` and `jce.jar` in `/tmp/java8-cipherspi-backport`.
+
+# How to use
+
+There are two options to apply this patch to your VMs.
+- Overriding the existing jce.jar file with newly built one.
+- Updating the existing jce.jar file 
+
+```
+$ export JCEJAR=/usr/lib/jvm/adoptopenjdk-8-hotspot-amd64/jre/lib/jce.jar
+$ jar -uf $JCEJAR javax/crypto/CipherSpi.class
+```
