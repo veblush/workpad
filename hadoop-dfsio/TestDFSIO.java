@@ -312,8 +312,6 @@ public class TestDFSIO implements Tool {
                                            Text.class, LongWritable.class,
                                            CompressionType.NONE);
         writer.append(new Text(name), new LongWritable(nrBytes));
-      } catch(Exception e) {
-        throw new IOException(e.getLocalizedMessage());
       } finally {
         if (writer != null)
           writer.close();
