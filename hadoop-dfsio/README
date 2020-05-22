@@ -1,1 +1,32 @@
 This is a patch for DFSIO to have warm-up operations.
+
+## How to build
+
+On a VM instance created by Hadoop
+
+```
+$ javac -classpath /usr/lib/hadoop/*:/usr/lib/hadoop/lib/*:/usr/lib/hadoop-hdfs/*:/usr/lib/hadoop-mapreduce/* \
+  IOMapperBase.java  TestDFSIO.java 
+```
+
+## Initialization script for Hadoop
+
+```
+##!/bin/bash
+
+set -euxo pipefail
+
+export GCS_PATH=gs://bucket/dfsio
+export DFSIO_JAR=/usr/lib/hadoop-mapreduce/hadoop-mapreduce-client-jobclient-2.10.0-tests.jar
+
+pushd $(mktemp -d)
+mkdir -p org/apache/hadoop/fs
+gsutil cp $GCS_PATH/IOMapperBase.class \
+    org/apache/hadoop/fs/IOMapperBase.class
+gsutil cp $GCS_PATH/TestDFSIO.class \
+    org/apache/hadoop/fs/TestDFSIO.class
+jar -uf $DFSIO_JAR \
+    org/apache/hadoop/fs/IOMapperBase.class \
+    org/apache/hadoop/fs/TestDFSIO.class
+popd
+```
