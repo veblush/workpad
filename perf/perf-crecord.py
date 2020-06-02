@@ -48,7 +48,7 @@ def run_perf(perf_argv, pid, on_start_script):
 
 
 def stop_perf(perf_process, on_stop_script, pid, perf_output):
-  print("*** Start perf: ")
+  print("*** Stop perf: ")
   perf_process.send_signal(signal.SIGINT)
   perf_process.wait()
   if on_stop_script:
