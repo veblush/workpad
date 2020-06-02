@@ -96,6 +96,9 @@ def run(my_args, perf_argv, cmd_argv):
     if command_process.poll() is not None:
       print("*** Command exited: {0}".format(command_process.poll()))
       break
+  if perf_process is None:
+      print("*** Did not start perf")
+      sys.exit(1)
 
 
 def parse_argument():
