@@ -13,4 +13,5 @@ $BENCHMARK_BIN \
   --object=$2 \
   --runs $3 \
   --threads 1 \
-  --cpolicy percall
+  --cpolicy percall \
+  ${@:4}
