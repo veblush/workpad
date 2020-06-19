@@ -11,4 +11,4 @@ URLS=$URL
 for i in $(seq 2 $3); do
    URLS+=" $URL"
 done
-curl -s $URLS > /dev/null
+curl ${@:4} -s $URLS > /dev/null
