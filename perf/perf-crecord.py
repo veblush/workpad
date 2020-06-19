@@ -48,7 +48,7 @@ def run_perf(perf_argv, pid, on_start_script):
 
 
 def stop_perf(perf_process, on_stop_script, pid, perf_output):
-  print("*** Start perf: ")
+  print("*** Stop perf: ")
   perf_process.send_signal(signal.SIGINT)
   perf_process.wait()
   if on_stop_script:
@@ -96,6 +96,9 @@ def run(my_args, perf_argv, cmd_argv):
     if command_process.poll() is not None:
       print("*** Command exited: {0}".format(command_process.poll()))
       break
+  if perf_process is None:
+      print("*** Did not start perf")
+      sys.exit(1)
 
 
 def parse_argument():
