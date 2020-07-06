@@ -19,4 +19,4 @@ $JAVA_BIN \
   --size=$4 \
   --calls=$5 \
   --method=write \
-  ${@:5}
+  ${@:6}
