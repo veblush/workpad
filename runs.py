@@ -262,6 +262,7 @@ def run(args, cmds):
   net_stats_proc = init_net_stat_proc()
   start_time = datetime.datetime.now()
   # Dispatching processes running cmd
+  last_proc_id = 0
   while len(results) < args.runs:
     for i in range(len(processes) - 1, -1, -1):
       p = processes[i][0]
@@ -282,7 +283,10 @@ def run(args, cmds):
       if args.verbose:
         print("Run")
       perf_stat_file = tempfile.mkstemp(prefix="runs_perf_")[1]
-      p = subprocess.Popen(["perf", "stat", "-o", perf_stat_file] + cmds)
+      last_proc_id += 1
+      p_env = os.environ.copy()
+      p_env['RUN_PROCESS_ID'] = str(last_proc_id)
+      p = subprocess.Popen(["perf", "stat", "-o", perf_stat_file] + cmds, env=p_env)
       processes.append((p, datetime.datetime.now(), perf_stat_file))
     # Collect system stats
     if cpu_stats_proc.poll() != None and net_stats_proc.poll() != None:

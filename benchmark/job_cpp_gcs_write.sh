@@ -12,7 +12,7 @@ $BENCHMARK_BIN \
   --operation=write \
   --bucket=$1 \
   --object=$2 \
-  --write_size=$3 \
+  --write_size=$3_${RUN_PROCESS_ID} \
   --runs=$4 \
   --threads 1 \
   --cpolicy percall \
