@@ -15,7 +15,7 @@ $JAVA_BIN \
   -jar $GCS_JAR \
   --client=$1 \
   --bkt=$2 \
-  --obj=$3 \
+  --obj=$3_${RUN_PROCESS_ID} \
   --size=$4 \
   --calls=$5 \
   --method=write \
