@@ -20,19 +20,19 @@ for i in $(seq 1 $BENCHMARK_TIMES); do
           cmd="./job_curl.sh $GCS_BUCKET $GCS_OBJECT $REPEAT_TIMES"
           ;;
         cpp_gcs)
-          cmd="./job_cpp_gcs.sh $GCS_BUCKET $GCS_OBJECT $REPEAT_TIMES"
+          cmd="./job_cpp_gcs_read.sh $GCS_BUCKET $GCS_OBJECT $REPEAT_TIMES"
           ;;
         java_gcs_yoshi)
-          cmd="./job_java_gcs.sh yoshi $GCS_BUCKET $GCS_OBJECT $REPEAT_TIMES $GCS_JAVA_OPTION"
+          cmd="./job_java_gcs_read.sh yoshi $GCS_BUCKET $GCS_OBJECT $REPEAT_TIMES $GCS_JAVA_OPTION"
           ;;
         java_gcs_grpc)
-          cmd="./job_java_gcs.sh grpc $GCS_BUCKET $GCS_OBJECT $REPEAT_TIMES $GCS_JAVA_OPTION"
+          cmd="./job_java_gcs_read.sh grpc $GCS_BUCKET $GCS_OBJECT $REPEAT_TIMES $GCS_JAVA_OPTION"
           ;;
         java_gcsio_http)
-          cmd="./job_java_gcs.sh gcsio-http $GCS_BUCKET $GCS_OBJECT $REPEAT_TIMES $GCS_JAVA_OPTION"
+          cmd="./job_java_gcs_read.sh gcsio-http $GCS_BUCKET $GCS_OBJECT $REPEAT_TIMES $GCS_JAVA_OPTION"
           ;;
         java_gcsio_grpc)
-          cmd="./job_java_gcs.sh gcsio-grpc $GCS_BUCKET $GCS_OBJECT $REPEAT_TIMES $GCS_JAVA_OPTION"
+          cmd="./job_java_gcs_read.sh gcsio-grpc $GCS_BUCKET $GCS_OBJECT $REPEAT_TIMES $GCS_JAVA_OPTION"
           ;;
       esac
       ../runs.py -r $t -t $t \
