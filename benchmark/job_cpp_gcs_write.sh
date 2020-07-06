@@ -9,7 +9,7 @@ fi
 BENCHMARK_BIN=$HOME/grpc-gcp-cpp/bazel-bin/e2e-examples/gcs/benchmark/benchmark
 
 $BENCHMARK_BIN \
-  --operation=read \
+  --operation=write \
   --bucket=$1 \
   --object=$2 \
   --write_size=$3 \
