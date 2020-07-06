@@ -11,8 +11,8 @@ BENCHMARK_BIN=$HOME/grpc-gcp-cpp/bazel-bin/e2e-examples/gcs/benchmark/benchmark
 $BENCHMARK_BIN \
   --operation=write \
   --bucket=$1 \
-  --object=$2 \
-  --write_size=$3_${RUN_PROCESS_ID} \
+  --object=$2_${RUN_PROCESS_ID} \
+  --write_size=$3 \
   --runs=$4 \
   --threads 1 \
   --cpolicy percall \
