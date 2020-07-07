@@ -8,7 +8,7 @@ fi
 
 ACCESS_TOKEN=`gcloud auth print-access-token`
 
-URL="https://www.googleapis.com/upload/storage/v1/b/$1/o?uploadType=media&name=$2"
+URL="https://www.googleapis.com/upload/storage/v1/b/$1/o?uploadType=media&name=${2}_${RUN_PROCESS_ID}"
 URLS=$URL
 for i in $(seq 2 $4); do
    URLS+=" $URL"

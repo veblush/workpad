@@ -1,7 +1,7 @@
 #!/bin/bash
 
 REPORT_FILE=$HOME/log/benchmark-result.tsv
-GCS_BUCKET=gcs-grpc-team-veblush1
+GCS_BUCKET=gcs-grpc-team-veblush-dp2
 GCS_OBJECT=write/benchmark
 GCS_OBJECT_MB_SIZE=1024
 GCS_OBJECT_KB_SIZE=1048576
