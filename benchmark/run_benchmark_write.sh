@@ -16,13 +16,16 @@ CURL_DATA_FILE=/tmp/benchmark.dat
 
 for i in $(seq 1 $BENCHMARK_TIMES); do
   for t in 1 2 3 4 5 6 7 8; do
-    for j in curl cpp_gcs java_gcs_yoshi java_gcs_grpc java_gcsio_http java_gcsio_grpc; do
+    for j in curl gsutil cpp_gcs java_gcs_yoshi java_gcs_grpc java_gcsio_http java_gcsio_grpc; do
       echo ========================================
       echo = i:$i t:$t j:$j
       echo
       case $j in
         curl)
           cmd="./job_curl_write.sh $GCS_BUCKET $GCS_OBJECT $CURL_DATA_FILE $REPEAT_TIMES"
+          ;;
+        gsutil)
+          cmd="./job_gsutil_write.sh $GCS_BUCKET $GCS_OBJECT $CURL_DATA_FILE $REPEAT_TIMES"
           ;;
         cpp_gcs)
           cmd="./job_cpp_gcs_write.sh $GCS_BUCKET $GCS_OBJECT $GCS_OBJECT_SIZE $REPEAT_TIMES"

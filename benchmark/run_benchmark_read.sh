@@ -11,13 +11,16 @@ GCS_JAVA_OPTION="--size=$GCS_OBJECT_KB_SIZE --buffSize=$GCS_OBJECT_KB_SIZE --dp=
 
 for i in $(seq 1 $BENCHMARK_TIMES); do
   for t in 1 2 3 4 5 6 7 8; do
-    for j in curl cpp_gcs java_gcs_yoshi java_gcs_grpc java_gcsio_http java_gcsio_grpc; do
+    for j in curl gsutil cpp_gcs java_gcs_yoshi java_gcs_grpc java_gcsio_http java_gcsio_grpc; do
       echo ========================================
       echo = i:$i t:$t j:$j
       echo
       case $j in
         curl)
           cmd="./job_curl_read.sh $GCS_BUCKET $GCS_OBJECT $REPEAT_TIMES"
+          ;;
+        gsutil)
+          cmd="./job_gsutil_read.sh $GCS_BUCKET $GCS_OBJECT $REPEAT_TIMES"
           ;;
         cpp_gcs)
           cmd="./job_cpp_gcs_read.sh $GCS_BUCKET $GCS_OBJECT $REPEAT_TIMES"
