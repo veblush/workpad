@@ -17,7 +17,7 @@ for i in $(seq 1 $BENCHMARK_TIMES); do
       echo
       case $j in
         curl)
-          cmd="./job_curl.sh $GCS_BUCKET $GCS_OBJECT $REPEAT_TIMES"
+          cmd="./job_curl_read.sh $GCS_BUCKET $GCS_OBJECT $REPEAT_TIMES"
           ;;
         cpp_gcs)
           cmd="./job_cpp_gcs_read.sh $GCS_BUCKET $GCS_OBJECT $REPEAT_TIMES"
