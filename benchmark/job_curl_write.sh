@@ -14,5 +14,5 @@ for i in $(seq 2 $4); do
     url -X POST --data-binary "@$3" -H "Authorization: Bearer $ACCESS_TOKEN" $URL > /dev/null
   else
     cat "$3" | url -X POST --data-binary @- -H "Authorization: Bearer $ACCESS_TOKEN" $URL > /dev/null
-  if
+  fi
 done

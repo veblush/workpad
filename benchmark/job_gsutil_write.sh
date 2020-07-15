@@ -12,5 +12,5 @@ for i in $(seq 1 $4); do
     gsutil cp ${@:5} "$3" ${URL}
   else
     cat "$3" | gsutil cp ${@:5} - ${URL}
-  if
+  fi
 done
