@@ -9,6 +9,13 @@ $ javac -classpath /usr/lib/hadoop/*:/usr/lib/hadoop/lib/*:/usr/lib/hadoop-hdfs/
   IOMapperBase.java  TestDFSIO.java 
 ```
 
+If it doesn't compile because of junit, you can add `/tmp/junit-4.11.jar` to `-classpath`
+after downloading it to `/tmp`
+
+```
+$ wget https://repo1.maven.org/maven2/junit/junit/4.11/junit-4.11.jar -P /tmp
+```
+
 ## Initialization script for Hadoop
 
 ```
