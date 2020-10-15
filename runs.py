@@ -173,6 +173,12 @@ def parse_perf_stat_output(output):
   return stat
 
 
+def get_mid(vals):
+  if vals:
+    return sorted(vals)[len(vals) / 2]
+  return None
+
+
 def print_stats(start_time, end_time, results, sys_stats):
   elapsed_time = datetime.datetime.now() - start_time
   error_runs = sum(1 if r[0] != 0 else 0 for r in results)
@@ -192,15 +198,16 @@ def print_stats(start_time, end_time, results, sys_stats):
     print("CPU:")
     for f in CPU_STAT_FIELDS:
       values = [getattr(sys_stat[0], f) for sys_stat in sys_stats]
-      print("  {0}: {1:.2f}".format(f, sum(values) / len(values)))
+      print("  {0}: {1:.2f}".format(f, get_mid(values)))
     print("MEM:")
     for f in MEM_STAT_FIELDS:
       values = [getattr(sys_stat[1], f) for sys_stat in sys_stats]
-      print("  {0}: {1:.2f}".format(f, sum(values) / len(values)))
+      print("  {0}: {1:.2f}".format(f, get_mid(values)))
     print("NET:")
     for f in NET_STAT_FIELDS:
       values = [getattr(sys_stat[2], f) for sys_stat in sys_stats]
-      print("  {0}: {1:.2f}".format(f, sum(values) / len(values)))
+      print("  {0}: {1:.2f}".format(f, get_mid(values)))
+
 
 
 def write_report(start_time, end_time, results, sys_stats, args):
@@ -233,21 +240,21 @@ def write_report(start_time, end_time, results, sys_stats, args):
     for field in CPU_STAT_FIELDS:
       if sys_stats:
         values = [getattr(sys_stat[0], field) for sys_stat in sys_stats]
-        v = sum(values) / len(values)
+        v = get_mid(values)
       else:
         v = 0
       f.write("\t{0:.2f}".format(v))
     for field in MEM_STAT_FIELDS:
       if sys_stats:
         values = [getattr(sys_stat[1], field) for sys_stat in sys_stats]
-        v = sum(values) / len(values)
+        v = get_mid(values)
       else:
         v = 0
       f.write("\t{0:.2f}".format(v))
     for field in NET_STAT_FIELDS:
       if sys_stats:
         values = [getattr(sys_stat[2], field) for sys_stat in sys_stats]
-        v = sum(values) / len(values)
+        v = get_mid(values)
       else:
         v = 0
       f.write("\t{0:.2f}".format(v))
