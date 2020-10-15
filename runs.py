@@ -175,7 +175,7 @@ def parse_perf_stat_output(output):
 
 def get_mid(vals):
   if vals:
-    return sorted(vals)[len(vals) / 2]
+    return sorted(vals)[len(vals) // 2]
   return None
 
 
