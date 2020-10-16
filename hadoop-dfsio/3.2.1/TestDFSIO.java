@@ -764,6 +764,7 @@ public class TestDFSIO implements Tool {
     String version = TestDFSIO.class.getSimpleName() + ".1.8.1";
     int warmupCount = 0;
     int warmupSize = -1;
+    int repeatCount = 1;
 
     LOG.info(version);
     if (args.length == 0) {
@@ -810,6 +811,8 @@ public class TestDFSIO implements Tool {
         warmupCount = Integer.parseInt(args[++i]);
       } else if (args[i].equals("-warmupSize")) {
         warmupSize = Integer.parseInt(args[++i]);
+      } else if (args[i].equals("-repeatCount")) {
+        repeatCount = Integer.parseInt(args[++i]);
       } else if (args[i].equalsIgnoreCase("-storagePolicy")) {
         storagePolicy = args[++i];
       } else if (args[i].equalsIgnoreCase("-erasureCodePolicy")) {
@@ -838,6 +841,7 @@ public class TestDFSIO implements Tool {
     if(warmupSize >= 0)
       LOG.info("warmupSize = " + warmupSize);
     LOG.info("baseDir = " + getBaseDir(config));
+    LOG.info("repeatCount = " + repeatCount);
     
     if (compressionClass != null) {
       config.set("test.io.compression.class", compressionClass);
@@ -848,6 +852,7 @@ public class TestDFSIO implements Tool {
     config.setLong("test.io.skip.size", skipSize);
     config.setInt("test.io.file.warmup.count", warmupCount);
     config.setInt("test.io.file.warmup.size", warmupSize);
+    config.setInt("test.io.file.repeat.count", repeatCount);
     FileSystem fs = FileSystem.get(config);
 
     if (erasureCodePolicyName != null) {

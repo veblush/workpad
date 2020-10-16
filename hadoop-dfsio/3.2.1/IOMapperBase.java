@@ -44,6 +44,7 @@ public abstract class IOMapperBase<T> extends Configured
   protected Closeable stream;
   protected int warmupCount;
   protected int warmupSize;
+  protected int repeatCount;
 
   public IOMapperBase() { 
   }
@@ -64,6 +65,7 @@ public abstract class IOMapperBase<T> extends Configured
     }
     warmupCount = conf.getInt("test.io.file.warmup.count", 0);
     warmupSize = conf.getInt("test.io.file.warmup.size", -1);
+    repeatCount = conf.getInt("test.io.file.repeat.count", 1);
   }
 
   public void close() throws IOException {
@@ -150,6 +152,18 @@ public abstract class IOMapperBase<T> extends Configured
       statValue = doIO(reporter, name, longValue);
     } finally {
       if(stream != null) stream.close();
+    }
+    if (statValue instanceof Long && this.repeatCount > 1) {
+      T repeatStatValue = null;
+      for (int i=1; i<this.warmupCount; i++) {
+        this.stream = getIOStream(name);
+        try {
+          repeatStatValue = doIO(reporter, name, warmupValue);
+          statValue = (Long)statValue + (Long)repeatStatValue;
+        } finally {
+          if(stream != null) stream.close();
+        }
+      }
     }
     long tEnd = System.currentTimeMillis();
     long execTime = tEnd - tStart;
