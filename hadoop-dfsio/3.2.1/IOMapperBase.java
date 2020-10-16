@@ -153,13 +153,11 @@ public abstract class IOMapperBase<T> extends Configured
     } finally {
       if(stream != null) stream.close();
     }
-    if (statValue instanceof Long && this.repeatCount > 1) {
-      T repeatStatValue = null;
-      for (int i=1; i<this.warmupCount; i++) {
+    if (this.repeatCount > 1) {
+      for (int i=1; i<this.repeatCount; i++) {
         this.stream = getIOStream(name);
         try {
-          repeatStatValue = doIO(reporter, name, warmupValue);
-          statValue = (Long)statValue + (Long)repeatStatValue;
+          doIO(reporter, name, longValue);
         } finally {
           if(stream != null) stream.close();
         }
