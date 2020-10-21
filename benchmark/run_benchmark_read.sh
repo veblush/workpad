@@ -11,10 +11,11 @@ GCS_JAVA_OPTION="--size=$GCS_OBJECT_KB_SIZE --buffSize=$GCS_OBJECT_KB_SIZE --dp=
 
 for i in $(seq 1 $BENCHMARK_TIMES); do
   for t in 1 2 3 4 5 6 7 8; do
-    for j in curl gsutil cpp_gcs java_gcs_yoshi java_gcs_grpc java_gcsio_http java_gcsio_grpc; do
+    for j in curl gsutil cpp_gcs java_gcs_yoshi java_gcs_grpc java_gcs_grpc_thread java_gcsio_http java_gcsio_grpc; do
       echo ========================================
       echo = i:$i t:$t j:$j
       echo
+      tt=$t
       case $j in
         curl)
           cmd="./job_curl_read.sh $GCS_BUCKET $GCS_OBJECT $REPEAT_TIMES"
@@ -31,6 +32,14 @@ for i in $(seq 1 $BENCHMARK_TIMES); do
         java_gcs_grpc)
           cmd="./job_java_gcs_read.sh grpc $GCS_BUCKET $GCS_OBJECT $REPEAT_TIMES $GCS_JAVA_OPTION"
           ;;
+        java_gcs_grpc_thread)
+          if [ $t -gt 1 ]; then
+            cmd="./job_java_gcs_read.sh grpc $GCS_BUCKET $GCS_OBJECT $REPEAT_TIMES $GCS_JAVA_OPTION -thread $t"
+            tt=1
+          else
+            continue
+          fi
+          ;;
         java_gcsio_http)
           cmd="./job_java_gcs_read.sh gcsio-http $GCS_BUCKET $GCS_OBJECT $REPEAT_TIMES $GCS_JAVA_OPTION"
           ;;
@@ -38,7 +47,7 @@ for i in $(seq 1 $BENCHMARK_TIMES); do
           cmd="./job_java_gcs_read.sh gcsio-grpc $GCS_BUCKET $GCS_OBJECT $REPEAT_TIMES $GCS_JAVA_OPTION"
           ;;
       esac
-      ../runs.py -r $t -t $t \
+      ../runs.py -r $tt -t $tt \
         --report_tag $j \
         --report_file=$REPORT_FILE \
         -- $cmd
