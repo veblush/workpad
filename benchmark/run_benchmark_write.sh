@@ -39,7 +39,7 @@ for i in $(seq 1 $BENCHMARK_TIMES); do
           ;;
         java_gcs_grpc_thread)
           if [ $t -gt 1 ]; then
-            cmd=cmd="./job_java_gcs_write.sh grpc $GCS_BUCKET $GCS_OBJECT $GCS_OBJECT_KB_SIZE $REPEAT_TIMES $GCS_JAVA_OPTION -thread $t"
+            cmd=cmd="./job_java_gcs_write.sh grpc $GCS_BUCKET $GCS_OBJECT $GCS_OBJECT_KB_SIZE $REPEAT_TIMES $GCS_JAVA_OPTION --thread $t"
             tt=1
           else
             continue
