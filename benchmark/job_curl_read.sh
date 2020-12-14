@@ -6,7 +6,7 @@ if [ $# -lt 3 ];then
   exit 1
 fi
 
-URL="https://www.googleapis.com/storage/v1/b/$1/o/$2?alt=media"
+URL="https://www.googleapis.com/storage/v1/b/$1/o/${2/\//%2F}?alt=media"
 URLS=$URL
 for i in $(seq 2 $3); do
    URLS+=" $URL"
