@@ -308,22 +308,25 @@ public class TestDFSIO implements Tool {
 
     fs.delete(controlDir, true);
 
-    for(int i=0; i < nrFiles; i++) {
-      String name = getFileName(i);
-      Path controlFile = new Path(controlDir, "in_file_" + name);
-      SequenceFile.Writer writer = null;
-      try {
-        writer = SequenceFile.createWriter(fs, config, controlFile,
-                                           Text.class, LongWritable.class,
-                                           CompressionType.NONE);
-        writer.append(new Text(name), new LongWritable(nrBytes));
-      } finally {
-        if (writer != null) {
-          writer.close();
-        }
-        writer = null;
-      }
-    }
+    IntStream.range(0, nrFiles)
+        .parallel()
+        .mapToObj(TestDFSIO::getFileName)
+        .forEach(
+            name -> {
+              Path controlFile = new Path(controlDir, "in_file_" + name);
+              try (SequenceFile.Writer writer =
+                  SequenceFile.createWriter(
+                      fs,
+                      config,
+                      controlFile,
+                      Text.class,
+                      LongWritable.class,
+                      CompressionType.NONE)) {
+                writer.append(new Text(name), new LongWritable(nrBytes));
+              } catch (Exception e) {
+                throw new RuntimeException("Failed to create a control file: " + controlFile, e);
+              }
+            });
     LOG.info("created control files for: " + nrFiles + " files");
   }
 
